@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Your dashboard — The Harfield Hub" };
 
 const STATUS_TEXT: Record<string, string> = {
-  pending: "Being reviewed. Usually live within 24 hours.",
+  pending: "Waiting for approval. It is not on the directory yet.",
   live: "Live in the directory.",
   hidden: "Hidden. Get in touch to bring it back.",
   suspended: "Suspended. Get in touch.",
@@ -18,6 +18,10 @@ export default async function Dashboard({
 }: { searchParams: { welcome?: string; upgrade?: string } }) {
   const sb = createClient();
   const { data: { user } } = await sb.auth.getUser();
+
+  const { data: me } = await sb
+    .from("profiles").select("role").eq("id", user!.id).maybeSingle();
+  const isStaff = me?.role === "admin" || me?.role === "operator";
 
   const { data: biz } = await sb
     .from("businesses")
@@ -34,6 +38,7 @@ export default async function Dashboard({
         </p>
         <div className="flex gap-3 flex-wrap">
           <Link href="/join/apply" className={btnPrimary}>List a business</Link>
+          {isStaff && <Link href="/admin/businesses" className={btnGhost}>Go to admin</Link>}
           <Link href="/" className={btnGhost}>Back to the directory</Link>
         </div>
       </div>
@@ -131,6 +136,11 @@ export default async function Dashboard({
       )}
 
       <div className="flex gap-3 flex-wrap mt-8">
+        {isStaff && (
+          <Link href="/admin/businesses" className={btnPrimary}>
+            Go to admin
+          </Link>
+        )}
         {biz.status === "live" && (
           <Link href={`/b/${biz.slug}`} className={btnGhost}>View your listing</Link>
         )}
