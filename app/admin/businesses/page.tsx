@@ -17,6 +17,17 @@ async function setStatus(formData: FormData) {
   revalidatePath("/");
 }
 
+async function setVerified(formData: FormData) {
+  "use server";
+  const sb = createClient();
+  await sb.rpc("set_verified", {
+    p_business_id: String(formData.get("id")),
+    p_value: formData.get("value") === "1",
+  });
+  revalidatePath("/admin/businesses");
+  revalidatePath("/");
+}
+
 async function setTier(formData: FormData) {
   "use server";
   const sb = createClient();
@@ -32,7 +43,7 @@ export default async function AdminBusinesses() {
   const sb = createClient();
   const { data } = await sb
     .from("businesses")
-    .select("id,name,slug,category,whatsapp,tier,status,founding,founding_listing,created_at")
+    .select("id,name,slug,category,whatsapp,tier,status,founding,verified,created_at")
     .order("created_at", { ascending: false });
 
   const list = data || [];
@@ -45,7 +56,7 @@ export default async function AdminBusinesses() {
         <strong className="font-semibold">{b.name}</strong>
         <span className="block text-[0.82rem] text-inkSoft">
           {b.category} · {b.whatsapp}
-          {b.founding_listing ? " · founding listing" : ""}
+          {b.verified ? " · verified" : ""}
           {b.founding ? " · founding pro" : ""}
         </span>
       </div>
@@ -71,6 +82,14 @@ export default async function AdminBusinesses() {
           <option value="suspended">Suspended</option>
         </select>
         <button className="text-[0.85rem] font-semibold underline" type="submit">Set status</button>
+      </form>
+
+      <form action={setVerified}>
+        <input type="hidden" name="id" value={b.id} />
+        <input type="hidden" name="value" value={b.verified ? "0" : "1"} />
+        <button className="text-[0.85rem] font-semibold underline" type="submit">
+          {b.verified ? "Unverify" : "Verify"}
+        </button>
       </form>
 
       {b.status === "live" && (

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
 import TabBar from "@/components/TabBar";
+import Trees from "@/components/Trees";
 import { SITE_NAME } from "@/lib/config";
 
 export const metadata: Metadata = {
@@ -16,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0E4A4F",
+  themeColor: "#14564F",
   width: "device-width",
   initialScale: 1,
 };
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="pb-[74px] md:pb-0">
+        <Trees />
         <Header />
         <main>{children}</main>
         <TabBar />

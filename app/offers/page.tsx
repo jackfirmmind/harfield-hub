@@ -4,6 +4,7 @@ import { SUBURB, SITE_NAME } from "@/lib/config";
 import Empty from "@/components/Empty";
 import { waLink } from "@/lib/format";
 import { WaIcon } from "@/components/Icons";
+import AddLink from "@/components/AddLink";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Offers — The Harfield Hub" };
@@ -25,8 +26,13 @@ export default async function Offers() {
 
   return (
     <div className="mx-auto max-w-[1120px] px-5 py-10">
-      <h1 className="h-display text-[clamp(1.9rem,5vw,2.6rem)] mb-2">Village offers</h1>
-      <p className="text-inkSoft mb-8">Deals from businesses in Harfield Village.</p>
+      <div className="flex justify-between items-start gap-4 flex-wrap mb-8">
+        <div>
+          <h1 className="h-display text-[clamp(1.9rem,5vw,2.6rem)] mb-2">Village offers</h1>
+          <p className="text-inkSoft m-0">Deals from businesses in Harfield Village.</p>
+        </div>
+        <AddLink href="/dashboard/offers" label="Add an offer" />
+      </div>
 
       {offers.length === 0 ? (
         <Empty title="No offers running right now.">

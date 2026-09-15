@@ -1,16 +1,20 @@
 import Link from "next/link";
 
 export default function CategoryChips({
-  categories, active, q,
+  categories, active, q, sort, rated,
 }: {
   categories: { category: string; count: number }[];
   active?: string;
   q?: string;
+  sort?: string;
+  rated?: number | null;
 }) {
   const build = (cat?: string) => {
     const p = new URLSearchParams();
     if (q) p.set("q", q);
     if (cat) p.set("cat", cat);
+    if (sort === "rating") p.set("sort", "rating");
+    if (rated) p.set("rated", String(rated));
     const s = p.toString();
     return s ? "/?" + s : "/";
   };

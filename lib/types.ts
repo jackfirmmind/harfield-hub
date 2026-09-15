@@ -11,9 +11,12 @@ export type BusinessRow = {
   tier: Tier;
   starting_price: string | null;
   works_from: string | null;
+  verified: boolean;
   has_offer: boolean;
   has_page: boolean;
   photo: string | null;
+  rating: number | null;
+  review_count: number;
 };
 
 export type OfferRow = {

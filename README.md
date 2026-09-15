@@ -76,6 +76,38 @@ You have not set your role to admin. See step 2 above.
 
 ---
 
+## THE TIERS
+
+| | Free | Pro | Expert |
+|---|---|---|---|
+| Price | Free 90 days, then R49/m | R199/m | R449/m |
+| Listing, WhatsApp, call | Yes | Yes | Yes |
+| View and tap counts | Yes | Yes | Yes |
+| Verified badge | No | Yes | Yes |
+| Reviews from residents | No | Yes | Yes |
+| Own page, photos, about | No | Yes | Yes |
+| Price list or menu | No | Yes | Yes |
+| Offers and events | No | Unlimited | Unlimited |
+| QR code | No | Yes | Yes |
+| Placement | Bottom | Above free | Top, 3 per category |
+| Payment links | No | No | Yes |
+| Coaching session | No | No | 1 a month |
+
+First 15 Pro members get their R199 locked for twelve months.
+
+The verified badge is granted by you in /admin/businesses, not by payment.
+
+## OPTIONAL: better price list parsing
+
+The price list parser works with no setup. If you want it to handle messier
+input, add an environment variable in Vercel:
+
+```
+ANTHROPIC_API_KEY=your-key
+```
+
+Without it, the built in parser is used. Nothing breaks either way.
+
 ## THE PAGES
 
 | Page | What it does |
@@ -88,7 +120,11 @@ You have not set your role to admin. See step 2 above.
 | `/join/apply` | Signup wizard, 5 steps |
 | `/login` `/signup` | Accounts |
 | `/dashboard` | A business sees their views and messages |
-| `/admin/businesses` | You approve and change tiers |
+| `/dashboard/page` | Pro page builder |
+| `/dashboard/offers` | Post offers, live instantly |
+| `/dashboard/events` | Post events, live instantly |
+| `/admin/businesses` | Approve, change tier, verify |
+| `/admin/approvals` | Review and publish Pro pages |
 
 ## RUNNING IT LOCALLY
 

@@ -4,6 +4,8 @@ import { createPublicClient } from "@/lib/supabase/server";
 import { SUBURB } from "@/lib/config";
 import ContactButtons from "@/components/ContactButtons";
 import PageView from "@/components/PageView";
+import Reviews from "@/components/Reviews";
+import { VerifiedBadge, Stars } from "@/components/Badges";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +26,7 @@ export default async function BusinessPage({ params }: { params: { slug: string 
 
   const { data: b } = await sb
     .from("businesses")
-    .select("id,name,category,one_line,whatsapp,phone,street,hours,starting_price,works_from,tier,website_or_social,suburb_id")
+    .select("id,name,category,one_line,whatsapp,phone,street,hours,starting_price,works_from,tier,website_or_social,suburb_id,verified")
     .eq("slug", params.slug)
     .eq("status", "live")
     .maybeSingle();
@@ -37,6 +39,13 @@ export default async function BusinessPage({ params }: { params: { slug: string 
     sb.from("offers").select("deal,fine_print,ends_at").eq("business_id", b.id).eq("active", true),
     sb.from("events").select("title,detail,event_date,event_time,location").eq("business_id", b.id).gte("event_date", new Date().toISOString().slice(0, 10)).order("event_date"),
   ]);
+
+  const { data: revAgg } = await sb
+    .from("reviews").select("rating").eq("business_id", b.id).eq("status", "visible");
+  const ratings = (revAgg || []).map((r: any) => r.rating as number);
+  const avg = ratings.length
+    ? Math.round((ratings.reduce((n, r) => n + r, 0) / ratings.length) * 10) / 10
+    : null;
 
   const page = pageRes.data as {
     about: string | null; photos: string[] | null; logo_url: string | null;
@@ -77,6 +86,11 @@ export default async function BusinessPage({ params }: { params: { slug: string 
           {b.name}
         </h1>
         <p className="text-inkSoft m-0">{b.category}</p>
+
+        <div className="flex items-center gap-4 flex-wrap mt-2">
+          {b.verified && <VerifiedBadge />}
+          <Stars value={avg} count={ratings.length} />
+        </div>
         <p className="text-[1.05rem] mt-4">{b.one_line}</p>
 
         <div className="mt-6">
@@ -149,6 +163,8 @@ export default async function BusinessPage({ params }: { params: { slug: string 
           </section>
         )}
 
+        <Reviews businessId={b.id} businessName={b.name} />
+
         <section className="mt-9 bg-surface2 rounded-card p-5 grid gap-2 text-[0.95rem]">
           {b.hours && <p className="m-0"><strong>Hours:</strong> {b.hours}</p>}
           {b.street && <p className="m-0"><strong>In the village:</strong> {b.street}</p>}
@@ -156,6 +172,30 @@ export default async function BusinessPage({ params }: { params: { slug: string 
           {b.starting_price && <p className="m-0"><strong>From:</strong> {b.starting_price}</p>}
           {b.website_or_social && <p className="m-0 break-words"><strong>Online:</strong> {b.website_or_social}</p>}
         </section>
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: b.name,
+              description: b.one_line,
+              telephone: b.phone || undefined,
+              areaServed: "Harfield Village, Cape Town",
+              address: b.street
+                ? { "@type": "PostalAddress", streetAddress: b.street,
+                    addressLocality: "Harfield Village", addressRegion: "Western Cape",
+                    addressCountry: "ZA" }
+                : undefined,
+              image: photos.length ? photos : undefined,
+              openingHours: b.hours || undefined,
+              aggregateRating: avg
+                ? { "@type": "AggregateRating", ratingValue: avg, reviewCount: ratings.length }
+                : undefined,
+            }),
+          }}
+        />
       </div>
     </>
   );

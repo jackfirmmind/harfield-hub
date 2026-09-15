@@ -4,6 +4,7 @@ import { SUBURB } from "@/lib/config";
 import type { BusinessRow } from "@/lib/types";
 import BusinessCard from "@/components/BusinessCard";
 import CategoryChips from "@/components/CategoryChips";
+import SortRow from "@/components/SortRow";
 import SearchBar from "@/components/SearchBar";
 import Empty from "@/components/Empty";
 import Link from "next/link";
@@ -13,10 +14,12 @@ export const dynamic = "force-dynamic";
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { q?: string; cat?: string };
+  searchParams: { q?: string; cat?: string; sort?: string; rated?: string };
 }) {
   const q = searchParams.q?.trim() || "";
   const cat = searchParams.cat || "";
+  const sort = searchParams.sort === "rating" ? "rating" : "default";
+  const rated = searchParams.rated === "4" ? 4 : null;
   const sb = createPublicClient();
 
   const [listRes, catRes] = await Promise.all([
@@ -24,6 +27,8 @@ export default async function Home({
       p_suburb: SUBURB,
       p_query: q || null,
       p_category: cat || null,
+      p_sort: sort,
+      p_min_rating: rated,
     }),
     sb.rpc("live_categories", { p_suburb: SUBURB }),
   ]);
@@ -31,7 +36,7 @@ export default async function Home({
   const list: BusinessRow[] = (listRes.data as BusinessRow[]) || [];
   const categories = (catRes.data as { category: string; count: number }[]) || [];
   const total = categories.reduce((n, c) => n + Number(c.count), 0);
-  const filtering = Boolean(q || cat);
+  const filtering = Boolean(q || cat || rated || sort === "rating");
 
   return (
     <>
@@ -55,7 +60,8 @@ export default async function Home({
           </p>
         </div>
 
-        <CategoryChips categories={categories} active={cat} q={q} />
+        <CategoryChips categories={categories} active={cat} q={q} sort={sort} rated={rated} />
+        <SortRow q={q} cat={cat} sort={sort} rated={rated} />
       </div>
 
       <section className="mx-auto max-w-[1120px] px-5 pt-8 pb-14">

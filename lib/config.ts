@@ -16,3 +16,9 @@ export const WORKS_FROM = [
   { value: "both", label: "Both" },
   { value: "online", label: "Online only" },
 ];
+
+export const PRICING = {
+  free:   { price: "R49",   per: "a month, after 90 days free" },
+  pro:    { price: "R199",  per: "a month" },
+  expert: { price: "R449",  per: "a month" },
+};

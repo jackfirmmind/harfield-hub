@@ -3,6 +3,7 @@ import { createPublicClient } from "@/lib/supabase/server";
 import { SUBURB } from "@/lib/config";
 import Empty from "@/components/Empty";
 import { prettyDate } from "@/lib/format";
+import AddLink from "@/components/AddLink";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Events — The Harfield Hub" };
@@ -23,8 +24,13 @@ export default async function Events() {
 
   return (
     <div className="mx-auto max-w-[820px] px-5 py-10">
-      <h1 className="h-display text-[clamp(1.9rem,5vw,2.6rem)] mb-2">What&apos;s on in the village</h1>
-      <p className="text-inkSoft mb-8">Markets, classes and get-togethers.</p>
+      <div className="flex justify-between items-start gap-4 flex-wrap mb-8">
+        <div>
+          <h1 className="h-display text-[clamp(1.9rem,5vw,2.6rem)] mb-2">What&apos;s on in the village</h1>
+          <p className="text-inkSoft m-0">Markets, classes and get-togethers.</p>
+        </div>
+        <AddLink href="/dashboard/events" label="Add an event" />
+      </div>
 
       {events.length === 0 ? (
         <Empty title="Nothing on the calendar yet.">

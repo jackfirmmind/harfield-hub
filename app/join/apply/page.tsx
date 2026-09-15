@@ -250,32 +250,28 @@ export default function Apply() {
           <h1 className="h-display text-[1.7rem] mb-1">Choose your plan</h1>
           <p className="text-inkSoft mb-6 text-[0.94rem]">You can change this any time.</p>
 
-          {left && left.listing > 0 && (
-            <p className="inline-block bg-accent text-accentInk font-bold text-[0.85rem] px-3 py-2 rounded-full mb-4">
-              {left.listing} of the first 30 free listings left
-            </p>
-          )}
+          <p className="inline-block bg-accent text-accentInk font-bold text-[0.85rem] px-3 py-2 rounded-full mb-4">
+            Every plan starts with 90 days free
+          </p>
 
           <div className="grid gap-3">
             <Option
               label="Get found — Free"
-              hint={left && left.listing > 0
-                ? "Free forever as one of the first 30. Listing, WhatsApp and call buttons, and your view count."
-                : "Free for 90 days, then R400 a year. Listing, WhatsApp and call buttons, and your view count."}
+              hint="Free for 90 days, then R49 a month. Listing, WhatsApp and call buttons, and your view count."
               checked={f.tier === "free"} onChange={() => set("tier", "free")} />
             <Option
-              label={left && left.pro > 0 ? "Get chosen — Pro, R350 a month" : "Get chosen — Pro, R450 a month"}
-              hint="Your own page with photos, prices and offers. Ranked above every free listing. One job pays for three months."
+              label="Get chosen — Pro, R199 a month"
+              hint="Verified badge, reviews, your own page with photos and prices, unlimited offers, a QR code. Ranked above free listings."
               checked={f.tier === "pro"} onChange={() => set("tier", "pro")} />
             <Option
-              label="Get seen first — Expert, R1200 a month"
+              label="Get seen first — Expert, R449 a month"
               hint="Everything in Pro, plus top of your category. Only three businesses per category."
               checked={f.tier === "expert"} onChange={() => set("tier", "expert")} />
           </div>
 
           {left && left.pro > 0 && f.tier === "pro" && (
             <p className="mt-4 text-[0.9rem] text-inkSoft">
-              {left.pro} founding places left. Your R350 is locked for twelve months.
+              {left.pro} founding places left. Your R199 is locked for twelve months.
             </p>
           )}
         </>

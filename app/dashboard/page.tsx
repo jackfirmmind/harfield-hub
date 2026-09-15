@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { btnPrimary, btnGhost } from "@/components/ui";
 import { OWNER_WA } from "@/lib/config";
+import QrCard from "@/components/QrCard";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Your dashboard — The Harfield Hub" };
@@ -25,7 +26,7 @@ export default async function Dashboard({
 
   const { data: biz } = await sb
     .from("businesses")
-    .select("id,name,slug,category,tier,status,founding,founding_listing,locked_price,trial_ends_at")
+    .select("id,name,slug,category,tier,status,founding,verified,locked_price,trial_ends_at")
     .eq("owner_id", user!.id)
     .maybeSingle();
 
@@ -103,9 +104,9 @@ export default async function Dashboard({
               : "Your listing is up. Now make it worth finding."}
           </h2>
           <p className="text-[0.95rem] opacity-90 m-0 mb-4">
-            Listings with photos and prices get chosen far more often than a name
-            on its own. Pro gives you your own page, unlimited offers and a place
-            above every free listing. R350 a month, about R11.50 a day.
+            Pro gives you a verified badge, reviews from neighbours, your own
+            page with photos and prices, unlimited offers, and a place above
+            every free listing. R199 a month, about R6.50 a day.
           </p>
           <a
             href={`https://wa.me/${OWNER_WA}?text=${encodeURIComponent(
@@ -119,9 +120,9 @@ export default async function Dashboard({
         </div>
       )}
 
-      {biz.founding_listing && (
+      {biz.verified && (
         <p className="text-[0.9rem] text-inkSoft mb-3">
-          Founding listing. Free forever as one of the first 30 businesses in the village.
+          Verified. We have checked your business and residents can see the badge.
         </p>
       )}
       {biz.founding && biz.locked_price && (
@@ -133,6 +134,10 @@ export default async function Dashboard({
         <p className="text-[0.9rem] text-inkSoft mb-3">
           Free until {new Date(biz.trial_ends_at).toLocaleDateString("en-ZA")}.
         </p>
+      )}
+
+      {biz.tier !== "free" && (
+        <div className="mb-8"><QrCard slug={biz.slug} name={biz.name} /></div>
       )}
 
       {biz.tier !== "free" && (
