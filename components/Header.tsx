@@ -29,7 +29,7 @@ export default async function Header() {
           <Link href="/offers" className="text-inkSoft hover:text-ink">Offers</Link>
           <Link href="/events" className="text-inkSoft hover:text-ink">Events</Link>
           {isStaff && (
-            <Link href="/admin/businesses" className="text-inkSoft hover:text-ink font-semibold">
+            <Link href="/admin/approvals" className="text-inkSoft hover:text-ink font-semibold">
               Admin
             </Link>
           )}
@@ -57,7 +57,7 @@ export default async function Header() {
         <div className="ml-auto md:hidden">
           {user ? (
             <Link
-              href={isStaff ? "/admin/businesses" : "/dashboard"}
+              href={isStaff ? "/admin/approvals" : "/dashboard"}
               className="inline-flex items-center min-h-[40px] px-3 rounded-btn bg-primary text-onPrimary text-[0.85rem] font-semibold no-underline"
             >
               {isStaff ? "Admin" : "Dashboard"}

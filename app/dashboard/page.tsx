@@ -135,11 +135,29 @@ export default async function Dashboard({
         </p>
       )}
 
+      {biz.tier !== "free" && (
+        <div className="grid gap-3 [grid-template-columns:repeat(auto-fit,minmax(200px,1fr))] mb-8">
+          <Link href="/dashboard/page" className="bg-surface border border-line rounded-card p-5 no-underline">
+            <strong className="h-display text-[1.05rem] block mb-1">Your page</strong>
+            <span className="text-[0.88rem] text-inkSoft">Photos, about, price list</span>
+          </Link>
+          <Link href="/dashboard/offers" className="bg-surface border border-line rounded-card p-5 no-underline">
+            <strong className="h-display text-[1.05rem] block mb-1">Your offers</strong>
+            <span className="text-[0.88rem] text-inkSoft">Post a deal, live straight away</span>
+          </Link>
+          <Link href="/dashboard/events" className="bg-surface border border-line rounded-card p-5 no-underline">
+            <strong className="h-display text-[1.05rem] block mb-1">Your events</strong>
+            <span className="text-[0.88rem] text-inkSoft">Markets, classes, open days</span>
+          </Link>
+        </div>
+      )}
+
       <div className="flex gap-3 flex-wrap mt-8">
         {isStaff && (
-          <Link href="/admin/businesses" className={btnPrimary}>
-            Go to admin
-          </Link>
+          <>
+            <Link href="/admin/approvals" className={btnPrimary}>Approvals</Link>
+            <Link href="/admin/businesses" className={btnGhost}>All businesses</Link>
+          </>
         )}
         {biz.status === "live" && (
           <Link href={`/b/${biz.slug}`} className={btnGhost}>View your listing</Link>

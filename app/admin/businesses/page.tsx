@@ -81,7 +81,12 @@ export default async function AdminBusinesses() {
 
   return (
     <div className="mx-auto max-w-[1000px] px-5 py-10">
-      <h1 className="h-display text-[2rem] mb-6">Businesses</h1>
+      <div className="flex justify-between items-center flex-wrap gap-3 mb-6">
+        <h1 className="h-display text-[2rem] m-0">Businesses</h1>
+        <Link href="/admin/approvals" className="text-[0.92rem] font-semibold underline">
+          Pages waiting for approval →
+        </Link>
+      </div>
 
       <section className="mb-10">
         <h2 className="h-display text-[1.2rem] mb-3">

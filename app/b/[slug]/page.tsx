@@ -32,13 +32,16 @@ export default async function BusinessPage({ params }: { params: { slug: string 
   if (!b) notFound();
 
   const [pageRes, itemsRes, offersRes, eventsRes] = await Promise.all([
-    sb.from("pages").select("about,photos,logo_url").eq("business_id", b.id).eq("status", "live").maybeSingle(),
+    sb.from("pages").select("about,photos,logo_url,colour_primary,colour_accent").eq("business_id", b.id).eq("status", "live").maybeSingle(),
     sb.from("items").select("name,description,price,group_name").eq("business_id", b.id).order("sort_order"),
     sb.from("offers").select("deal,fine_print,ends_at").eq("business_id", b.id).eq("active", true),
     sb.from("events").select("title,detail,event_date,event_time,location").eq("business_id", b.id).gte("event_date", new Date().toISOString().slice(0, 10)).order("event_date"),
   ]);
 
-  const page = pageRes.data as { about: string | null; photos: string[] | null; logo_url: string | null } | null;
+  const page = pageRes.data as {
+    about: string | null; photos: string[] | null; logo_url: string | null;
+    colour_primary: string | null; colour_accent: string | null;
+  } | null;
   const items = itemsRes.data || [];
   const offers = offersRes.data || [];
   const events = eventsRes.data || [];
@@ -55,10 +58,20 @@ export default async function BusinessPage({ params }: { params: { slug: string 
     <>
       <PageView businessId={b.id} />
 
-      <div className="mx-auto max-w-[820px] px-5 py-10">
+      <div
+        className="mx-auto max-w-[820px] px-5 py-10"
+        style={page?.colour_primary
+          ? ({ "--primary": page.colour_primary, "--accent": page.colour_accent || "#F2B705" } as React.CSSProperties)
+          : undefined}
+      >
         <Link href="/" className="text-[0.9rem] text-inkSoft no-underline">
           ← Back to the directory
         </Link>
+
+        {page?.logo_url && (
+          <img src={page.logo_url} alt=""
+            className="w-20 h-20 object-contain rounded-card border border-line bg-surface mt-5" />
+        )}
 
         <h1 className="h-display text-[clamp(1.9rem,5.5vw,2.8rem)] leading-[1.05] mt-4 mb-2">
           {b.name}
@@ -104,7 +117,8 @@ export default async function BusinessPage({ params }: { params: { slug: string 
             <h2 className="h-display text-[1.35rem] mb-3">Services and prices</h2>
             <ul className="list-none p-0 m-0 border-t border-line">
               {items.map((it, i) => (
-                <li key={i} className="flex justify-between gap-4 py-3 border-b border-line">
+                <li key={i} className="flex justify-between gap-4 py-3 border-b border-line"
+                  data-group={it.group_name || undefined}>
                   <span>
                     <strong className="font-semibold">{it.name}</strong>
                     {it.description && <span className="block text-[0.88rem] text-inkSoft">{it.description}</span>}
