@@ -250,30 +250,31 @@ export default function Apply() {
           <h1 className="h-display text-[1.7rem] mb-1">Choose your plan</h1>
           <p className="text-inkSoft mb-6 text-[0.94rem]">You can change this any time.</p>
 
-          <p className="inline-block bg-accent text-accentInk font-bold text-[0.85rem] px-3 py-2 rounded-full mb-4">
-            Every plan starts with 90 days free
-          </p>
+          {left && left.pro > 0 && (
+            <p className="inline-block bg-accent text-accentInk font-bold text-[0.85rem] px-3 py-2 rounded-full mb-4">
+              {left.pro} founding Pro places left · R199 locked for 12 months
+            </p>
+          )}
 
           <div className="grid gap-3">
             <Option
               label="Get found — Free"
-              hint="Free for 90 days, then R49 a month. Listing, WhatsApp and call buttons, and your view count."
+              hint="Your first 90 days are free, then R49 a month. Listing, WhatsApp and call buttons, and your view count."
               checked={f.tier === "free"} onChange={() => set("tier", "free")} />
             <Option
               label="Get chosen — Pro, R199 a month"
-              hint="Verified badge, reviews, your own page with photos and prices, unlimited offers, a QR code. Ranked above free listings."
+              hint="Billed from day one, no free period. Verified badge, reviews, your own page with photos and prices, unlimited offers, a QR code. Ranked above free listings."
               checked={f.tier === "pro"} onChange={() => set("tier", "pro")} />
             <Option
               label="Get seen first — Expert, R449 a month"
-              hint="Everything in Pro, plus top of your category. Only three businesses per category."
+              hint="Billed from day one, no free period. Everything in Pro, plus top of your category, payment links and a monthly coaching session."
               checked={f.tier === "expert"} onChange={() => set("tier", "expert")} />
           </div>
 
-          {left && left.pro > 0 && f.tier === "pro" && (
-            <p className="mt-4 text-[0.9rem] text-inkSoft">
-              {left.pro} founding places left. Your R199 is locked for twelve months.
-            </p>
-          )}
+          <p className="mt-5 text-[0.88rem] text-inkSoft">
+            The free 90 days applies to the Free plan only. Pro and Expert start
+            billing straight away. You can change plan any time.
+          </p>
         </>
       )}
 

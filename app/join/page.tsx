@@ -37,7 +37,7 @@ export default async function Join() {
       {/* scarcity, stated once, at the top */}
       <p className="inline-block bg-accent text-accentInk font-bold text-[0.85rem] px-[13px] py-2 rounded-full mb-4">
         {left > 0
-          ? `${left} of ${FOUNDING_SLOTS} founding places left · price locked for 12 months`
+          ? `${left} of ${FOUNDING_SLOTS} founding Pro places left · price locked for 12 months`
           : "Founding places are full"}
       </p>
 
@@ -67,7 +67,7 @@ export default async function Join() {
           <h2 className="h-display text-[1.45rem] m-0">Get found</h2>
           <p className="text-[0.85rem] text-inkSoft mt-1 mb-4">Free</p>
           <p className="h-display text-[2.4rem] leading-none m-0">R49</p>
-          <p className="text-[0.85rem] text-inkSoft mt-1 mb-5">a month, after 90 days free</p>
+          <p className="text-[0.85rem] text-inkSoft mt-1 mb-5">a month, after your first 90 days free</p>
           <p className="text-[0.95rem] mb-4">
             Your name, what you do, and a WhatsApp button. Residents reach you in two taps.
           </p>
@@ -96,7 +96,7 @@ export default async function Join() {
           <div className="flex items-end gap-2">
             <p className="h-display text-[2.7rem] leading-none m-0">R199</p>
           </div>
-          <p className="text-[0.85rem] opacity-85 mt-1 mb-1">a month</p>
+          <p className="text-[0.85rem] opacity-85 mt-1 mb-1">a month, billed from day one</p>
           <p className="text-[0.85rem] opacity-85 mb-5">
             That is R6.50 a day. One job pays for months.
           </p>
@@ -137,7 +137,7 @@ export default async function Join() {
           <h2 className="h-display text-[1.45rem] m-0">Get seen first</h2>
           <p className="text-[0.85rem] text-inkSoft mt-1 mb-4">Expert</p>
           <p className="h-display text-[2.4rem] leading-none m-0">R449</p>
-          <p className="text-[0.85rem] text-inkSoft mt-1 mb-5">a month</p>
+          <p className="text-[0.85rem] text-inkSoft mt-1 mb-5">a month, billed from day one</p>
           <p className="text-[0.95rem] mb-4">
             Top of your category, above everyone else. Only three businesses per
             category, ever.
@@ -164,7 +164,7 @@ export default async function Join() {
         {[
           { h: "R6.50 a day", p: "One callout, one table of four, one haircut. That is your whole month covered." },
           { h: "Nothing to build", p: "Send us your photos and your price list on WhatsApp. We build your page for you." },
-          { h: "Cancel any time", p: "No contract. Stop whenever you like and keep your free listing." },
+          { h: "Cancel any time", p: "No contract. Stop whenever you like and drop back to the Free listing." },
         ].map((x) => (
           <div key={x.h} className="bg-surface2 rounded-card p-5">
             <h3 className="h-display text-[1.05rem] m-0 mb-1">{x.h}</h3>
