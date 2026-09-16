@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import TabBar from "@/components/TabBar";
 import Trees from "@/components/Trees";
+import HelpBotMount from "@/components/HelpBotMount";
 import { SITE_NAME } from "@/lib/config";
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Trees />
         <Header />
         <main>{children}</main>
+        <HelpBotMount />
         <TabBar />
       </body>
     </html>

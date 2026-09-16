@@ -108,6 +108,25 @@ ANTHROPIC_API_KEY=your-key
 
 Without it, the built in parser is used. Nothing breaks either way.
 
+## THE HELP BOT
+
+A button-based helper sits on every page, bottom right.
+
+It knows who is asking:
+- Not logged in: finding a business, offers, reviews, listing a business
+- Resident: the above plus their account, saving, reviews
+- Business: their live status, view counts, page builder, offers, billing,
+  reviews, their verified badge, their trial days left
+- Admin: straight to approvals
+
+It pulls real data, so it says things like "you appeared 47 times and nobody
+messaged you, add photos and a price" rather than generic help.
+
+Every branch ends with a WhatsApp button that opens a message to you already
+filled in with who they are and what they were asking about.
+
+40 nodes. To change the wording or add a branch, edit `lib/botTree.ts`.
+
 ## THE PAGES
 
 | Page | What it does |

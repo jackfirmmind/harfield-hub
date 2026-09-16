@@ -1,53 +1,66 @@
-"use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
-import { Field, inputCls, btnPrimary } from "@/components/ui";
 
-export default function Signup() {
-  const router = useRouter();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [err, setErr] = useState("");
-  const [busy, setBusy] = useState(false);
+export const metadata = { title: "Sign up — The Harfield Hub" };
 
-  async function submit() {
-    if (password.length < 8) { setErr("Password must be at least 8 characters."); return; }
-    setBusy(true); setErr("");
-    const { error } = await createClient().auth.signUp({
-      email, password,
-      options: { data: { full_name: name, role: "resident" } },
-    });
-    setBusy(false);
-    if (error) { setErr(error.message); return; }
-    router.push("/");
-    router.refresh();
-  }
-
+export default function SignupChoice() {
   return (
-    <div className="mx-auto max-w-[420px] px-5 py-14">
+    <div className="mx-auto max-w-[680px] px-5 py-14">
       <h1 className="h-display text-[2rem] mb-2">Create an account</h1>
-      <p className="text-inkSoft mb-6 text-[0.95rem]">
-        So you can save the businesses you want to come back to.
+      <p className="text-inkSoft mb-8 text-[0.98rem]">
+        Which one are you?
       </p>
-      <Field label="Your name">
-        <input className={inputCls} value={name} onChange={(e) => setName(e.target.value)} />
-      </Field>
-      <Field label="Email">
-        <input className={inputCls} type="email" value={email} autoComplete="email"
-          onChange={(e) => setEmail(e.target.value)} />
-      </Field>
-      <Field label="Password" hint="At least 8 characters" error={err}>
-        <input className={inputCls} type="password" value={password} autoComplete="new-password"
-          onChange={(e) => setPassword(e.target.value)} />
-      </Field>
-      <button className={btnPrimary + " w-full"} onClick={submit} disabled={busy}>
-        {busy ? "Creating…" : "Create account"}
-      </button>
-      <p className="text-[0.9rem] text-inkSoft mt-6">
-        Already have one? <Link href="/login">Log in</Link>
+
+      <div className="grid gap-4">
+        <Link
+          href="/signup/resident"
+          className="bg-surface border border-line rounded-card p-6 no-underline hover:border-inkSoft block"
+        >
+          <div className="flex items-start gap-4">
+            <span className="shrink-0 w-11 h-11 rounded-full bg-surface2 grid place-items-center text-primary">
+              <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.9">
+                <path d="M3 21V10l9-6 9 6v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z" />
+              </svg>
+            </span>
+            <div>
+              <h2 className="h-display text-[1.25rem] m-0 mb-1">I live here</h2>
+              <p className="text-[0.93rem] text-inkSoft m-0">
+                Save the businesses you want to come back to, and leave reviews
+                for the ones you have used.
+              </p>
+              <p className="text-[0.88rem] font-semibold text-primary mt-3 m-0">
+                Sign up as a resident →
+              </p>
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          href="/join/apply"
+          className="bg-primary text-onPrimary rounded-card p-6 no-underline block"
+        >
+          <div className="flex items-start gap-4">
+            <span className="shrink-0 w-11 h-11 rounded-full grid place-items-center"
+              style={{ background: "rgba(255,255,255,.16)" }}>
+              <svg viewBox="0 0 24 24" className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.9">
+                <path d="M3 21h18M5 21V8l7-4 7 4v13M9 21v-6h6v6" />
+              </svg>
+            </span>
+            <div>
+              <h2 className="h-display text-[1.25rem] m-0 mb-1">I run a business</h2>
+              <p className="text-[0.93rem] m-0 opacity-90">
+                Get found by your neighbours. Your first 90 days are free on the
+                Free plan.
+              </p>
+              <p className="text-[0.88rem] font-semibold mt-3 m-0" style={{ color: "var(--accent)" }}>
+                List your business →
+              </p>
+            </div>
+          </div>
+        </Link>
+      </div>
+
+      <p className="text-[0.92rem] text-inkSoft mt-8">
+        Already have an account? <Link href="/login">Log in</Link>
       </p>
     </div>
   );

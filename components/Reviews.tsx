@@ -95,7 +95,7 @@ export default function Reviews({ businessId, businessName }: { businessId: stri
         </p>
       ) : !me ? (
         <p className="text-[0.92rem]">
-          <Link href="/login">Log in</Link> or <Link href="/signup">create an account</Link> to leave a review.
+          <Link href="/login">Log in</Link> or <Link href="/signup/resident">create an account</Link> to leave a review.
           Your name shows on it.
         </p>
       ) : !open ? (

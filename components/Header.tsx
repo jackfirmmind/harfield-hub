@@ -44,10 +44,10 @@ export default async function Header() {
             <>
               <Link href="/login" className="text-inkSoft hover:text-ink">Log in</Link>
               <Link
-                href="/join"
+                href="/signup"
                 className="inline-flex items-center min-h-[40px] px-4 rounded-btn bg-primary text-onPrimary font-semibold no-underline"
               >
-                List your business
+                Sign up
               </Link>
             </>
           )}

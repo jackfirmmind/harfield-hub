@@ -38,8 +38,7 @@ function LoginForm() {
         {busy ? "Logging in…" : "Log in"}
       </button>
       <p className="text-[0.9rem] text-inkSoft mt-6">
-        No account yet? <Link href="/signup">Sign up</Link> or{" "}
-        <Link href="/join/apply">list your business</Link>.
+        No account yet? <Link href="/signup">Sign up</Link>.
       </p>
     </div>
   );
